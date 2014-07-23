@@ -16,7 +16,7 @@ Android emoji from AndroidEmoji.ttf as single icons in PNG format
 
 ## Third-party components
 
- * [`AndroidEmoji.ttf`](https://github.com/android/platform_frameworks_base/blob/514bdc3b6e62240ff4df686a7844d5ecdd9a0a66/data/fonts/AndroidEmoji.ttf) by The Android Open Source Project ([Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0))
+ * [AndroidEmoji.ttf](https://github.com/android/platform_frameworks_base/blob/514bdc3b6e62240ff4df686a7844d5ecdd9a0a66/data/fonts/AndroidEmoji.ttf) by The Android Open Source Project ([Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0))
 
 ## License
 
