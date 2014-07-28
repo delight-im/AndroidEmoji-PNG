@@ -1,4 +1,4 @@
-# AndroidEmoji-To-PNG
+# AndroidEmoji-PNG
 
 Android emoji from AndroidEmoji.ttf as single icons in PNG format
 
