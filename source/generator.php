@@ -23,6 +23,8 @@ mb_internal_encoding('utf-8');
 set_time_limit(0);
 
 header('Content-type: text/plain; charset=utf-8');
+mb_internal_encoding('UTF-8');
+setlocale(LC_ALL, 'en_US.UTF-8');
 
 require_once('config.php');
 
@@ -31,6 +33,7 @@ require_once('config.php');
  * 
  * @param int $c the hexadecimal Unicode codepoint
  * @throws Exception if the given codepoint could not be represented in UTF-8
+ * 
  * @author velcrow (Stack Overflow)
  */
 function utf8($c) {
@@ -49,6 +52,38 @@ function utf8($c) {
 	else {
 		throw new Exception('Could not represent in UTF-8: '.$c);
 	}
+}
+
+/**
+ * Unicode-safe exec() function
+ * 
+ * @author code_angel (Stack Overflow)
+ */
+function unicode_exec($cmd, &$output=NULL, &$return=NULL) {
+	if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+		return exec($cmd, $output, $return);
+	}
+
+	$cmdStr = "@echo off\r\n";
+	$cmdStr .= "@chcp 65001 > nul\r\n";
+	$cmdStr .= "@cd \"".getcwd()."\"\r\n";
+	$cmdStr .= $cmd;
+
+	$tempfile = 'php_exec.bat';
+	file_put_contents($tempfile, $cmdStr);
+
+	exec('start /b '.$tempfile, $output, $return);
+
+	array_pop($output);
+	array_pop($output);
+
+	if (count($output) == 1) {
+		$output = $output[0];
+	}
+
+	unlink($tempfile);
+
+	return $output;
 }
 
 function codePointToHex($singleCodePoint) {
@@ -92,7 +127,7 @@ class ImageMagick {
 	}
 	
 	public static function saveAsPNG($text, $filename) {
-		passthru('"'.self::$imageMagickPath.'" -size '.self::$size.'x'.self::$size.' xc:none -fill '.self::$color.' -font "'.self::$font.'" -gravity center -pointsize '.self::$fontSize.' -annotate +0+0 "'.utf8_decode($text).'" PNG:"'.$filename.'" 2>&1');
+		unicode_exec('"'.self::$imageMagickPath.'" -size '.self::$size.'x'.self::$size.' xc:none -fill '.self::$color.' -font "'.self::$font.'" -gravity center -pointsize '.self::$fontSize.' -annotate +0+0 "'.escapeshellarg($text).'" PNG:"'.$filename.'" 2>&1');
 	}
 
 }

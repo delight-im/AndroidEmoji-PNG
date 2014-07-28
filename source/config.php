@@ -20,6 +20,6 @@ define('CONFIG_IMAGE_MAGICK_PATH_CONVERT', 'C:\Libraries\ImageMagick\convert.exe
 define('CONFIG_ICON_SIZE', 48);
 define('CONFIG_GLYPH_SIZE_POINT', 36);
 define('CONFIG_OUTPUT_DIR', '../icons');
-define('CONFIG_EMOJI_FONT_PATH', 'AndroidEmoji.ttf');
+define('CONFIG_EMOJI_FONT_PATH', './AndroidEmoji.ttf');
 
 ?>
