@@ -2,7 +2,7 @@
 
 Android emoji from AndroidEmoji.ttf as single icons in PNG format
 
-This collection includes 719 graphic emoticons from Android's emoji font, i.e. all 722 emoji from Unicode 6.3 except for `EN SPACE` (`U+2002`), `EM SPACE` (`U+2003`) and `FOUR-PER-EM SPACE` (`U+2005`).
+This collection includes 719 graphic emoticons from Android's emoji font, i.e. all 722 emoji from Unicode 6.3 except for `EN SPACE` (U+2002), `EM SPACE` (U+2003) and `FOUR-PER-EM SPACE` (U+2005).
 
 ## Usage
 
