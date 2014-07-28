@@ -101,6 +101,7 @@ class ImageMagick {
 	private static $fontSize;
 	private static $color;
 	private static $size;
+	private static $offset;
 
 	public static function init($imageMagickPath) {
 		self::$imageMagickPath = $imageMagickPath;
@@ -108,6 +109,7 @@ class ImageMagick {
 		self::$fontSize = 28;
 		self::$color = 'black';
 		self::$size = 32;
+		self::$offset = array(0, 0);
 	}
 	
 	public static function setFont($font) {
@@ -126,8 +128,13 @@ class ImageMagick {
 		self::$size = intval($size);
 	}
 	
+	public static function setOffset($offsetX, $offsetY) {
+		self::$offset[0] = intval($offsetX);
+		self::$offset[1] = intval($offsetY);
+	}
+	
 	public static function saveAsPNG($text, $filename) {
-		unicode_exec('"'.self::$imageMagickPath.'" -size '.self::$size.'x'.self::$size.' xc:none -fill '.self::$color.' -font "'.self::$font.'" -gravity center -pointsize '.self::$fontSize.' -annotate +0+0 "'.escapeshellarg($text).'" PNG:"'.$filename.'" 2>&1');
+		unicode_exec('"'.self::$imageMagickPath.'" -size '.self::$size.'x'.self::$size.' xc:none -fill '.self::$color.' -font "'.self::$font.'" -gravity center -pointsize '.self::$fontSize.' -annotate +'.self::$offset[0].'+'.self::$offset[1].' "'.escapeshellarg($text).'" PNG:"'.$filename.'" 2>&1');
 	}
 
 }
@@ -863,6 +870,7 @@ ImageMagick::init(CONFIG_IMAGE_MAGICK_PATH_CONVERT);
 ImageMagick::setFont(CONFIG_EMOJI_FONT_PATH);
 ImageMagick::setFontSize(CONFIG_GLYPH_SIZE_POINT);
 ImageMagick::setSize(CONFIG_ICON_SIZE);
+ImageMagick::setOffset(round(CONFIG_ICON_SIZE * CONFIG_OFFSET_X_FACTOR), 0);
 
 foreach ($codePoints as $codePoint) {
 	if (is_array($codePoint)) {
