@@ -108,7 +108,7 @@ class ImageMagick {
 		self::$font = 'Arial';
 		self::$fontSize = 28;
 		self::$color = 'black';
-		self::$size = 32;
+		self::$size = array(32, 32);
 		self::$offset = array(0, 0);
 	}
 	
@@ -124,8 +124,9 @@ class ImageMagick {
 		self::$color = $color;
 	}
 	
-	public static function setSize($size) {
-		self::$size = intval($size);
+	public static function setSize($width, $height) {
+		self::$size[0] = intval($width);
+		self::$size[1] = intval($height);
 	}
 	
 	public static function setOffset($offsetX, $offsetY) {
@@ -134,7 +135,7 @@ class ImageMagick {
 	}
 	
 	public static function saveAsPNG($text, $filename) {
-		unicode_exec('"'.self::$imageMagickPath.'" -size '.self::$size.'x'.self::$size.' xc:none -fill '.self::$color.' -font "'.self::$font.'" -gravity center -pointsize '.self::$fontSize.' -annotate +'.self::$offset[0].'+'.self::$offset[1].' "'.escapeshellarg($text).'" PNG:"'.$filename.'" 2>&1');
+		unicode_exec('"'.self::$imageMagickPath.'" -size '.self::$size[0].'x'.self::$size[1].' xc:none -fill '.self::$color.' -font "'.self::$font.'" -gravity center -pointsize '.self::$fontSize.' -annotate +'.self::$offset[0].'+'.self::$offset[1].' "'.escapeshellarg($text).'" PNG:"'.$filename.'" 2>&1');
 	}
 
 }
@@ -861,11 +862,12 @@ $codePoints = array(
 ImageMagick::init(CONFIG_IMAGE_MAGICK_PATH_CONVERT);
 ImageMagick::setFont(CONFIG_EMOJI_FONT_PATH);
 ImageMagick::setFontSize(CONFIG_GLYPH_SIZE_POINT);
-ImageMagick::setSize(CONFIG_ICON_SIZE);
 ImageMagick::setOffset(round(CONFIG_ICON_SIZE * CONFIG_OFFSET_X_FACTOR), 0);
 
 foreach ($codePoints as $codePoint) {
 	if (is_array($codePoint)) {
+		ImageMagick::setSize(CONFIG_ICON_SIZE * 2, CONFIG_ICON_SIZE);
+
 		$textParts = array();
 		$hexNameParts = array();
 		foreach ($codePoint as $codePointItem) {
@@ -876,6 +878,8 @@ foreach ($codePoints as $codePoint) {
 		$hexName = implode('_', $hexNameParts);
 	}
 	elseif (is_int($codePoint)) {
+		ImageMagick::setSize(CONFIG_ICON_SIZE, CONFIG_ICON_SIZE);
+
 		$text = utf8($codePoint);
 		$hexName = codePointToHex($codePoint);
 	}
