@@ -870,10 +870,7 @@ foreach ($codePoints as $codePoint) {
 		$hexNameParts = array();
 		foreach ($codePoint as $codePointItem) {
 			$textParts[] = utf8($codePointItem);
-			// ignore code point "COMBINING ENCLOSING KEYCAP" in naming for compatibility with https://github.com/rockerhieu/emojicon
-			if ($codePointItem !== 0x20E3) {
-				$hexNameParts[] = codePointToHex($codePointItem);
-			}
+			$hexNameParts[] = codePointToHex($codePointItem);
 		}
 		$text = implode('', $textParts);
 		$hexName = implode('_', $hexNameParts);
